@@ -32,34 +32,37 @@ function cleanChaos(pathFolder) {
 								// console.log(exists);
 								if(!exists) {
 										// console.log(exists);
-										fs.mkdir(newFolderPath, (err) => {
-											if(err) {
-												// console.log(err);
-											}
-										});
+										fs.mkdirSync(newFolderPath);
 								}
-								var rs = fs.createReadStream(pathElement);
-								var os = fs.createWriteStream(path.join(newFolderPath + '/' + name));
-								// console.log(name);
+								fs.copyFile(pathElement, path.join(newFolderPath + '/' + name), (err) => {
+									if(err) {
+										console.log(err);
+									} else {
+										fs.unlinkSync(pathElement);
+									}
+								});
+								// var rs = fs.createReadStream(pathElement);
+								// var os = fs.createWriteStream(path.join(newFolderPath + '/' + name));
+								// // console.log(name);
 										
 								
-								rs.pipe(os);
-								rs.on('end',function() {
-									fs.unlinkSync(pathElement);
-									// console.log(pathFolder);
-									fs.readdir(pathFolder, (err, name) => {
-										if(err) {
-											console.log(err);
-										} else {
-											if(name.length === 0) {
-												fs.rmdir(pathFolder, (err) => {
-													if(err) console.log(err);
-												})
-											}
-										}
-									})
+								// rs.pipe(os);
+								// rs.on('end',function() {
+								// 	fs.unlinkSync(pathElement);
+								// 	// console.log(pathFolder);
+								// 	fs.readdir(pathFolder, (err, name) => {
+								// 		if(err) {
+								// 			console.log(err);
+								// 		} else {
+								// 			if(name.length === 0) {
+								// 				fs.rmdir(pathFolder, (err) => {
+								// 					if(err) console.log(err);
+								// 				})
+								// 			}
+								// 		}
+								// 	})
 									
-								});
+								// });
 								// console.log(newPath);
 										
 							}); 	
