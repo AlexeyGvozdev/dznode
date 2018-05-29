@@ -24,18 +24,17 @@ function cleanChaos(pathFolder) {
                             // создаем путь к папке куда будем копировать файл
                             let newFolderPath = path.join(__dirname + '/' + nameCleanFolder + '/' + name.slice(0, 1).toLowerCase() + '/');
                             // проверка на наличие такой папки
-                            fs.exists(newFolderPath, (exists) => {
-                                if(!exists) {
-                                        fs.mkdirSync(newFolderPath);
+                            let exists = fs.existsSync(newFolderPath);
+                            if(!exists) {
+                                    fs.mkdirSync(newFolderPath);
+                            }
+                            // копируем файл и удаляем старый файл
+                            fs.copyFile(pathElement, path.join(newFolderPath + '/' + name), (err) => {
+                                if(err) {
+                                    console.log(err);
+                                } else {
+                                    fs.unlinkSync(pathElement);
                                 }
-                                // копируем файл
-                                fs.copyFile(pathElement, path.join(newFolderPath + '/' + name), (err) => {
-                                    if(err) {
-                                        console.log(err);
-                                    } else {
-                                        fs.unlinkSync(pathElement);
-                                    }
-                                });
                             });
                         }
                     }
