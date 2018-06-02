@@ -1,14 +1,19 @@
 const app = require('express')();
+require('dotenv').config();
+
+// console.log(process.env.PORT);
+
 
 app.get('/', (req, res) => {
 
     const interval = setInterval(() => {
         console.log(getTimeUTC());
-    }, 3000);
+    }, process.env.INTERVAL);
     setTimeout(() => {
         clearInterval(interval);
         res.send(getTimeUTC());
-    }, 15000);
+        console.log('end');
+    }, process.env.TIMEOUT);
 })
 app.listen(3000, () => {
     console.log('server is running');
