@@ -1,53 +1,94 @@
+const db = require('../models/db')
+
 let user = {
   email: "",
   password: ""
 };
 
-exports.indexGet = (req, res) => {
+module.exports.indexGet = (req, res) => {
+  console.log("index");
+  
   res.render('pages/index', {
     title: 'Express',
     msgemail: req.flash('msgemail')
   });
 };
-exports.indexPost = (req, res) => {
+module.exports.indexPost = (req, res) => {
   console.log(req.body);
-  req.flash('msgemail', 'Send email!');
+  req.flash('msgemail', req.body.message);
   res.redirect('/#form');
 }
 
-exports.loginGet = (req, res) => {
+module.exports.loginGet = (req, res) => {
+  console.log("GEt");
+  
   if(req.session.autorization) {
-    req.flash('autorized', req.session.user)
-    console.log( 'get',req.session.user);
+    // console.log(req.session.autorization);
     
-    req.flash('msglogin', 'Вы уже вошли');
-    res.render('pages/login', {
-      title: 'Express',
-      msglogin: req.flash('msglogin'),
-      autorized: req.session.user
-    })
+    // req.flash('autorized', req.session.user)
+    // console.log( 'get',req.session.user);
+    
+    // req.flash('msglogin', 'Вы уже вошли');
+    // res.render('pages/login', {
+    //   title: 'Express',
+    //   msglogin: req.flash('msglogin'),
+    //   autorized: req.session.user
+    // })
+
+    res.redirect('/admin');
   } else {
     res.render('pages/login', {title: 'Express'});
   }
 }
 
-exports.loginPost = (req, res) => {
+module.exports.loginPost = (req, res) => {
+  
   console.log(req.body);
   if( req.body.email.length > 0 && req.body.password.length > 0) {
-    if(req.session.user) {
-      if(req.session.user.email === req.body.email)
-      res.redirect('/login');
-    }
-    user.email = req.body.email;
-    user.password = req.body.password;
-    req.session.autorization = true;
-    req.session.user = user;
-    res.redirect('/login');
+    
+    db
+      .getUser(req.body.email)
+      .then((user) => {
+        console.log(user);
+        if (!user) {
+          req.flash('msglogin', 'Не правльный логин или пароль');
+          res.render('pages/login', {
+            msglogin: req.flash('msglogin')
+          })
+        } else if(user.password === req.body.password) {
+          console.log('ok password');
+          res.redirect('/admin');
+          req.session.autorization = true;
+        } else {
+          req.flash('msglogin', 'Не правльный логин или пароль');
+          res.render('pages/login', {
+            msglogin: req.flash('msglogin')
+          })
+        }
+      })
+      .catch( (err) => {
+        console.log(err);
+      
+        res.redirect('/login');
+      })
   } else {
     res.redirect('/login')
   }
 }
 
-exports.adminGet = (req, res) => {
+module.exports.adminGet = (req, res) => {
+  console.log('Admin');
+  
   res.render('pages/admin', {msgskill: 'Test send'});
+}
+
+module.exports.uploadPost = (req, res) => {
+  console.log(req.body);
+  res.redirect('/admin')
+}
+
+module.exports.skillsPost = (req, res) => {
+  res.send("ghjghjghj");
+  console.log(req.body);
+  
 }

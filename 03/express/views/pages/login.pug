@@ -21,14 +21,8 @@ block content
           .status= msglogin
         .form-login__line
           label.form-login__label(for="") Привет,
-          if(msglogin)
-            input.form-login__input(type="email" name="email" value=autorized.email)
-          else 
-            input.form-login__input(type="email" name="email" placeholder="E-MAIL")
+          input.form-login__input(type="email" name="email" placeholder="E-MAIL")
         .form-login__line
-          if(msglogin)
-            input.form-login__input(type="password" name="password" value=autorized.password)
-          else 
-            input.form-login__input(type="password" name="password" placeholder="Пароль")
+          input.form-login__input(type="password" name="password" placeholder="Пароль")
         .form-login__line
         button(type="submit").form-login__button Войти
