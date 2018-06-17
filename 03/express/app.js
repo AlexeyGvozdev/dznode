@@ -23,8 +23,8 @@ app.set('view engine', 'pug');
 
 app.set('mongooseClient', mongoose);
 // uncomment after placing your favicon in /public
-// app.use(favicon(path.join(__dirname, 'public', 'favicon.ico')));
-// app.use(logger('dev'));
+// app.use(favicon(path.join(__dirname, 'public', 'favicon')));
+// app.use(logger('dev')); 
 app.use(session({
   secret: 'keyboard cat',
   key: 'key',
@@ -35,6 +35,7 @@ app.use(session({
   },
   resave: false,
   saveUninitialized: false}));
+
 app.use(flash());
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({extended: false}));
@@ -45,6 +46,7 @@ app.all('/', (req, res, next) => {
   console.log(req.session.id);
   next();
 });
+
 
 app.use('/', index);
 // app.use('/users', users); catch 404 and forward to error handler
