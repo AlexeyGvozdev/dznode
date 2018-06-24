@@ -1,0 +1,11 @@
+{
+  "session": {
+    "key": "key",
+    "maxAge": 160000,
+    "overwrite": true,
+    "httpOnly": true,
+    "signed": false,
+    "rolling": false,
+    "renew": true
+  }
+}

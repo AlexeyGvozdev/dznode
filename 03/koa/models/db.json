@@ -1,0 +1,22 @@
+{
+  "users": [
+    {
+      "email": "admin@mail.ru",
+      "password": "12345",
+      "skills": {
+        "age": "1",
+        "concerts": "2",
+        "countCity": "3",
+        "yearsOnScene": "6"
+      }
+    }
+  ],
+  "upload": [
+    {
+      "fileName": "Снимок экрана от 2018-03-11 20-07-33.png",
+      "userEmail": "admin@mail.ru",
+      "name": "sdf",
+      "price": "123123"
+    }
+  ]
+}
